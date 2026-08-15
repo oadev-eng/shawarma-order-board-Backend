@@ -13,7 +13,11 @@ func main() {
 	}
 	addr := os.Getenv("ADDR")
 	if addr == "" {
-		addr = ":8080"
+		if port := os.Getenv("PORT"); port != "" {
+			addr = ":" + port // Railway (and most PaaS hosts) assign this automatically
+		} else {
+			addr = ":8080"
+		}
 	}
 
 	store := NewStore(dataPath)
